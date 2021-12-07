@@ -1,0 +1,179 @@
+<button nz-button nzType="primary" (click)="open()">Ingresar un Nuevo Registro</button>
+
+<nz-table #basicTable [nzData]="listOfHardware">
+  <thead>
+    <tr>
+      <th>Fabricante</th>
+      <th>Modelo</th>
+      <th>Service Tag</th>
+      <th>Accion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{data.fabricante}}</td>
+      <td>{{data.modelo }}</td>
+      <td>{{data.serviceTag}}</td>
+      <td>
+        <a (click)="modificar(data)" >Editar</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a nz-popconfirm nzPopconfirmTitle="Estas seguro de borrar el registro?" [nzIcon]="iconTpl" (nzOnConfirm)="delete(data.id)" (nzOnCancel)="cancel()" nzCancelText="No" nzOkText="Si">
+          Borrar
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<!--TEMPLATE-->
+<ng-template #iconTpl>
+  <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+</ng-template>
+
+
+<!--Drawer-->
+<nz-drawer
+      [nzBodyStyle]="{ overflow: 'auto' }"
+      [nzMaskClosable]="false"
+      [nzWidth]="720"
+      [nzVisible]="visible"
+      nzTitle="Formulario Hardware"
+      [nzFooter]="footerTpl"
+      (nzOnClose)="close()"
+    > 
+      <form nz-form *nzDrawerContent (submit)="submitForm()" [formGroup]="form">
+        <div nz-row [nzGutter]="8">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Fabricante</nz-form-label>
+              <nz-form-control>
+                <input formControlName="fabricante" nz-input placeholder="Ingrese el Fabricante" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Modelo</nz-form-label>
+              <nz-form-control>
+                <input formControlName="modelo" nz-input placeholder="Ingrese el Modelo" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Service Tag</nz-form-label>
+              <nz-form-control>
+                <input formControlName="serviceTag" nz-input placeholder="Ingrese el Service Tag" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>RAM</nz-form-label>
+              <nz-form-control>
+                <nz-input-number formControlName="ram" [nzMin]="1"  [nzStep]="1" placeholder="Ingrese el RAM"></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Procesador</nz-form-label>
+              <nz-form-control>
+                <input formControlName="procesadorMarca" nz-input  placeholder="Ingrese el Procesador" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Generacion</nz-form-label>
+              <nz-form-control>
+                <nz-input-number formControlName="procesadorGeneracion" [nzMin]="1"  [nzStep]="1" placeholder="Ingrese la Generacion del Procesador" ></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Frecuencia Procesador</nz-form-label>
+              <nz-form-control>
+                <nz-input-number formControlName="procesadorFq" [nzMin]="1"  [nzStep]="1" placeholder="Ingrese la Frecuencia del Procesador"></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Cache L1</nz-form-label>
+              <nz-form-control>
+                <nz-input-number formControlName="cacheL1" [nzMin]="1"  [nzStep]="1" placeholder="Ingrese la Cache L1"></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Cache L2</nz-form-label>
+              <nz-form-control>
+                <nz-input-number formControlName="cacheL2" [nzMin]="1"  [nzStep]="1" placeholder="Ingrese la Cache L2"></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Cache L3</nz-form-label>
+              <nz-form-control>
+                <nz-input-number formControlName="cacheL3" [nzMin]="1"  [nzStep]="1" placeholder="Ingrese la Cache L3"></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Disco Duro</nz-form-label>
+              <nz-form-control>
+                <nz-input-number formControlName="discoDuro" [nzMin]="1"  [nzStep]="1" placeholder="Ingrese el tamaño del disco duro"></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Unidad Disco Duro</nz-form-label>
+              <nz-form-control>
+                <input formControlName="discoDuroUnidad" nz-input placeholder="Ingrese Unidad de medicion" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Tamaño Pantalla</nz-form-label>
+              <nz-form-control>
+                <nz-input-number formControlName="pantalla"  [nzMin]="1"  [nzStep]="1" placeholder="Ingrese la pantalla"></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="12">
+            <nz-form-item>
+              <nz-form-label>Color</nz-form-label>
+              <nz-form-control>
+                <input  formControlName="color" nz-input placeholder="Ingrese el Color" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+
+      <ng-template #footerTpl>
+        <div style="float: right">
+          <button nz-button style="margin-right: 8px;" (click)="close()">Cancelar</button>
+          <button nz-button nzType="primary" (click)="guardar()">Guardar</button>
+        </div>
+      </ng-template>
+    </nz-drawer>
